@@ -7,11 +7,9 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class CustomLocationRepositoryImpl implements CustomLocationRepository {
     private static final String DEFAULT_DISTANCE = "50";
@@ -37,5 +35,3 @@ public class CustomLocationRepositoryImpl implements CustomLocationRepository {
         return locationIDs;
     }
 }
-
-

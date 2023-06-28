@@ -1,14 +1,10 @@
 package com.laioffer.staybooking.controller;
 
-import com.laioffer.staybooking.exception.GCSUploadException;
-import com.laioffer.staybooking.exception.StayNotExistException;
-import com.laioffer.staybooking.exception.UserAlreadyExistException;
-import com.laioffer.staybooking.exception.UserNotExistException;
+import com.laioffer.staybooking.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class CustomExceptionHandler {
@@ -19,8 +15,8 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler(UserNotExistException.class)
-    public final ResponseEntity<String> handleUserNotExistExceptions(Exception ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    public final ResponseEntity<String> handleUserNotExistException(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(StayNotExistException.class)
@@ -33,6 +29,8 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(InvalidSearchDateException.class)
+    public final ResponseEntity<String> handleInvalidSearchDateExceptions(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
-
-
