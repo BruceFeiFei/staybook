@@ -20,6 +20,60 @@ import { StayDetailInfoButton } from "./HostHomePage";
 const { TabPane } = Tabs;
 const { Text } = Typography;
 
+class MyReservations extends React.Component {
+  state = {
+    loading: false,
+    data: [],
+  };
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData = async () => {
+    this.setState({
+      loading: true,
+    });
+
+    try {
+      const resp = await getReservations();
+      this.setState({
+        data: resp,
+      });
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      this.setState({
+        loading: false,
+      });
+    }
+  };
+
+  render() {
+    return (
+      <List
+        style={{ width: 1000, margin: "auto" }}
+        loading={this.state.loading}
+        dataSource={this.state.data}
+        renderItem={(item) => (
+          <List.Item actions={[]}>
+            <List.Item.Meta
+              title={<Text>{item.stay.name}</Text>}
+              description={
+                <>
+                  <Text>Checkin Date: {item.checkin_date}</Text>
+                  <br />
+                  <Text>Checkout Date: {item.checkout_date}</Text>
+                </>
+              }
+            />
+          </List.Item>
+        )}
+      />
+    );
+  }
+}
+
 class BookStayButton extends React.Component {
   state = {
     loading: false,
@@ -230,7 +284,7 @@ class GuestHomePage extends React.Component {
           <SearchStays />
         </TabPane>
         <TabPane tab="My Reservations" key="2">
-          My Reservations Content
+          <MyReservations />
         </TabPane>
       </Tabs>
     );
