@@ -36,6 +36,7 @@ export const getReservations = () => {
   const authToken = localStorage.getItem("authToken");
   const listReservationsUrl = `${domain}/reservations`;
 
+  console.log("test");
   return fetch(listReservationsUrl, {
     headers: {
       Authorization: `Bearer ${authToken}`,

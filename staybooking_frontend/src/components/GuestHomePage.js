@@ -13,12 +13,55 @@ import {
   Carousel,
   Modal,
 } from "antd";
-import { getReservations, searchStays, bookStay } from "../utils";
+import {
+  getReservations,
+  searchStays,
+  bookStay,
+  cancelReservation,
+} from "../utils";
 import { LeftCircleFilled, RightCircleFilled } from "@ant-design/icons";
 import { StayDetailInfoButton } from "./HostHomePage";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
+
+class CancelReservationButton extends React.Component {
+  state = {
+    loading: false,
+  };
+
+  handleRemoveStay = async () => {
+    const { stay, onRemoveSuccess } = this.props;
+    this.setState({
+      loading: true,
+    });
+
+    try {
+      await cancelReservation(stay.id);
+      onRemoveSuccess();
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      this.setState({
+        loading: false,
+      });
+    }
+  };
+
+  render() {
+    return (
+      <Button
+        loading={this.state.loading}
+        onClick={this.handleRemoveStay}
+        danger={true}
+        shape="round"
+        type="primary"
+      >
+        Cancel Reservation
+      </Button>
+    );
+  }
+}
 
 class MyReservations extends React.Component {
   state = {
@@ -56,7 +99,14 @@ class MyReservations extends React.Component {
         loading={this.state.loading}
         dataSource={this.state.data}
         renderItem={(item) => (
-          <List.Item actions={[]}>
+          <List.Item
+            actions={[
+              <CancelReservationButton
+                stay={item}
+                onRemoveSuccess={this.loadData}
+              />,
+            ]}
+          >
             <List.Item.Meta
               title={<Text>{item.stay.name}</Text>}
               description={
