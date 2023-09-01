@@ -34,6 +34,8 @@ Upload with three pictures in PNG format, upload the maximum guest number, uploa
 
 ## Search Stay
 
+The result of searching stay is based on user's personal address within 50 miles
+
 ![Search_Stay](/static//Search_Stay.png)
 
 ## Book Stay
