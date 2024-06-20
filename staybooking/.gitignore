@@ -34,3 +34,4 @@ build/
 
 ### key
 application.properties
+credentials.json
